@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import "./index.css";
 const pizzaData = [
   {
     name: "Focaccia",
@@ -48,21 +49,97 @@ const pizzaData = [
 
 function App() {
   return (
-    <div>
-      <h1>Hello react</h1>
-      <Pizza />
-      <Pizza />
-      <Pizza />
+    <div className="container">
+      <Header />
+      <Menu />
+      <Footer />
     </div>
   );
 }
 
-function Pizza() {
+function Header() {
   return (
-    <div>
-      <img src="pizzas/spinaci.jpg" alt="Pizza spinaci" />
-      <h2>Pizza Spinaci</h2>
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
+    <header className="header">
+      <h1>Amizing React Italian Pizza Co.</h1>
+    </header>
+  );
+}
+
+function Menu() {
+  const pizzas = pizzaData;
+  //const pizzas = [];
+  const numPizzas = pizzas.length;
+  return (
+    <main className="menu">
+      <h2>Our Menu</h2>
+      {numPizzas > 0 ? (
+        <>
+          <p>
+            Italian pizza menus typically feature a variety of pizzas, ranging
+            from classic Neapolitan styles with simple toppings to more
+            adventurous creations, often highlighting local ingredients and
+            regional specialties
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+              //   <Pizza
+              //   name={pizza.name}
+              //   ingredients={pizza.ingredients}
+              //   photoName={pizza.photoName}
+              //   price={pizza.price}
+              // />
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>We still working on our menu. Sorry come back soon :)</p>
+      )}
+    </main>
+  );
+}
+// Pizza(props) or Pizza({pizzaObj})
+function Pizza({ pizzaObj }) {
+  return (
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
+      <div>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.soldOut ? "sold out" : pizzaObj.price + 50}</span>
+      </div>
+    </li>
+  );
+}
+
+function Footer() {
+  const hour = new Date().getHours();
+  const openHour = 12;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
+  console.log(isOpen);
+  return (
+    <footer className="footer">
+      {isOpen ? (
+        <Order openHour={openHour} closeHour={closeHour} />
+      ) : (
+        <p>
+          Sorry we are closed Now. We are Happy wellcome between {openHour}:00
+          to {closeHour}:00
+        </p>
+      )}
+    </footer>
+  );
+}
+
+function Order({ closeHour, openHour }) {
+  return (
+    <div className="order">
+      <p>
+        We are open from {openHour} untill {closeHour}:00. You can come and eat
+        or order online wherever you are.
+      </p>
+      <button className="btn">Order</button>
     </div>
   );
 }
