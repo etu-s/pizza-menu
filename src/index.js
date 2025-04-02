@@ -60,7 +60,7 @@ function App() {
 function Header() {
   return (
     <header className="header">
-      <h1>Amizing React Italian Pizza Co.</h1>
+      <h1>Amizing React First Time Italian Pizza Co.</h1>
     </header>
   );
 }
